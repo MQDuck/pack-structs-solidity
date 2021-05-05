@@ -13,37 +13,37 @@ class Variable:
     name: str
 
     def __repr__(self):
-        return f"{self.type} {self.name}"
+        return f'{self.type} {self.name}'
 
     @property
     def num_bits(self):
-        if self.type[-2:] == "[]":
+        if self.type[-2:] == '[]':
             return 256
-        if self.type == "bool":
+        if self.type == 'bool':
             return 8
-        if self.type[:4] == "uint":
+        if self.type[:4] == 'uint':
             size = self.type[4:]
             if len(size) == 0:
                 return 256
             assert size.isdigit()
             return int(size)
-        if self.type[:3] == "int":
+        if self.type[:3] == 'int':
             size = self.type[3:]
             if len(size) == 0:
                 return 256
             assert size.isdigit()
             return int(size)
-        if self.type == "address":
+        if self.type == 'address':
             return 160
-        if self.type == "byte":
+        if self.type == 'byte':
             return 8
-        if self.type == "bytes":
+        if self.type == 'bytes':
             return 256
-        if self.type[:5] == "bytes":
+        if self.type[:5] == 'bytes':
             size = self.type[5:]
             assert size.isdigit()
             return int(size) * 8
-        if self.type == "string":
+        if self.type == 'string':
             return 256
         assert False
 
@@ -110,9 +110,9 @@ if __name__ == '__main__':
             if len(args.variables) != 0:
                 parser.error('Requires only one of: variables file or variables arguments')
             with open(args.variables_file, 'r', encoding='utf8') as file:
-                variables = [Variable(*var.strip().split(" ")) for var in file.read().split(';')[:-1]]
+                variables = [Variable(*var.strip().split(' ')) for var in file.read().split(';')[:-1]]
         elif len(args.variables) != 0:
-                variables = [Variable(*var.strip().split(" ")) for var in ' '.join(args.variables).split(';')[:-1]]
+                variables = [Variable(*var.strip().split(' ')) for var in ' '.join(args.variables).split(';')[:-1]]
         else:
             parser.error('Requires only one of: variables file or variables arguments')
 
@@ -121,10 +121,10 @@ if __name__ == '__main__':
         max_slots = max(permutations, key=lambda p: p.num_slots).num_slots
         min_slots = min(permutations, key=lambda p: p.num_slots).num_slots
         permutations = sorted(filter(lambda p: p.num_slots == min_slots, permutations), reverse=True)
-        winning_order_function = ";\n".join(str(var) for var in permutations[-1]) + ";"
-        winning_order_type = ",".join(str(var) for var in permutations[-1])
-        print(f"original slots: {calc_num_slots(variables)}   min slots: {min_slots}   "
-              f"max slots: {max_slots}\n\n{winning_order_function}\n\n{winning_order_type}")
+        winning_order_function = ';\n'.join(str(var) for var in permutations[-1]) + ';'
+        winning_order_type = ','.join(str(var) for var in permutations[-1])
+        print(f'original slots: {calc_num_slots(variables)}   min slots: {min_slots}   '
+              f'max slots: {max_slots}\n\n{winning_order_function}\n\n{winning_order_type}')
 
 
     main()
