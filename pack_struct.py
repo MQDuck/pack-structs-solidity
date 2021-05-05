@@ -81,25 +81,6 @@ class VariablesPermutation(tuple[Variable]):
 
 
 if __name__ == '__main__':
-    def calc_num_slots(permutation: Iterable[Variable]) -> int:
-        num_slots = 0
-        current_size = 256
-        for var in permutation:
-            var_size = var.num_bits
-            if current_size + var_size > 256:
-                num_slots += 1
-                current_size = var_size
-            else:
-                current_size += var_size
-        return num_slots
-
-
-    def compare_alphabetical(perm1: Sequence[Variable], perm2: Sequence[Variable]) -> int:
-        for i in range(len(perm1)):
-            if perm1[i] != perm2[i]:
-                return -1 if perm1[i].name < perm2[i].name else 1
-        return 0
-
     def main():
         parser = argparse.ArgumentParser(description='Optimally pack solidity variables')
         parser.add_argument('variables', type=str, help='semicolon- or comma-separated variables', nargs='*')
@@ -123,7 +104,7 @@ if __name__ == '__main__':
         permutations = sorted(filter(lambda p: p.num_slots == min_slots, permutations), reverse=True)
         winning_order_function = ';\n'.join(str(var) for var in permutations[-1]) + ';'
         winning_order_type = ','.join(str(var) for var in permutations[-1])
-        print(f'original slots: {calc_num_slots(variables)}   min slots: {min_slots}   '
+        print(f'original slots: {VariablesPermutation(variables).num_slots}   min slots: {min_slots}   '
               f'max slots: {max_slots}\n\n{winning_order_function}\n\n{winning_order_type}')
 
 
