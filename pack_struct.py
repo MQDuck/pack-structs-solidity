@@ -1,10 +1,7 @@
 from __future__ import annotations
 
-import argparse
 import functools
-import itertools
 from dataclasses import dataclass
-from typing import Iterable, Sequence
 
 
 @dataclass()
@@ -82,6 +79,9 @@ class VariablesPermutation(tuple[Variable]):
 
 if __name__ == '__main__':
     def main():
+        import argparse
+        import itertools
+
         parser = argparse.ArgumentParser(description='Optimally pack solidity variables')
         parser.add_argument('variables', type=str, help='semicolon- or comma-separated variables', nargs='*')
         parser.add_argument('--variables_file', '-f', type=str, help='file of semicolon- or comma-separated variables')
